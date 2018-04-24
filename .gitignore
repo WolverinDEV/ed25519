@@ -1,6 +1,4 @@
 # Created by .ignore support plugin (hsz.mobi)
-.idea/ed25519.iml
-.idea/inspectionProfiles/
-.idea/modules.xml
-.idea/workspace.xml
 cmake-build-debug/
+.idea/
+include/
