@@ -1,4 +1,5 @@
 project(ed25519)
+cmake_minimum_required(VERSION 3.9)
 
 set(SOURCE
 		src/add_scalar.c
@@ -17,3 +18,9 @@ add_library(ed25519 STATIC ${SOURCE})
 
 add_executable(ed25519_test test.c)
 target_link_libraries(ed25519_test ed25519)
+
+INSTALL(DIRECTORY include/ DESTINATION include/ed25519)
+INSTALL(TARGETS ed25519
+		LIBRARY DESTINATION lib
+		ARCHIVE DESTINATION lib
+)

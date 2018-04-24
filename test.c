@@ -4,10 +4,10 @@
 #include <time.h>
 
 /* #define ED25519_DLL */
-#include "src/ed25519.h"
+#include "include/ed25519.h"
 
-#include "src/ge.h"
-#include "src/sc.h"
+#include "include/ge.h"
+#include "include/sc.h"
 
 
 int main() {
