@@ -14,7 +14,17 @@ set(SOURCE
 		src/sha512.c
 )
 
-add_library(ed25519 STATIC ${SOURCE})
+set(HEADERS
+		include/ed25519.h
+		include/fe.h
+		include/fixedint.h
+		include/ge.h
+		include/precomp_data.h
+		include/sc.h
+		include/sha512.h
+)
+
+add_library(ed25519 STATIC ${SOURCE} ${HEADERS})
 
 add_executable(ed25519_test test.c)
 target_link_libraries(ed25519_test ed25519)
