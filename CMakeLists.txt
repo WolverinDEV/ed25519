@@ -1,6 +1,8 @@
 project(ed25519)
 cmake_minimum_required(VERSION 3.9)
 
+option(USE_OPENSSL "Use openssl for sha 512 (Faster than the default installation" ON)
+
 set(SOURCE
 		src/add_scalar.c
 		src/fe.c
@@ -11,9 +13,16 @@ set(SOURCE
 		src/seed.c
 		src/sign.c
 		src/verify.c
-		src/sha512.c
 )
 
+if(USE_OPENSSL)
+	add_definitions(-DUSE_OPENSSL)
+	set(SOURCE ${SOURCE} src/sha512_openssl.c)
+else()
+	set(SOURCE ${SOURCE} src/sha512.c)
+endif()
+
+#Some programs need for full support the header files too
 set(HEADERS
 		include/ed25519.h
 		include/fe.h
@@ -28,6 +37,10 @@ add_library(ed25519 STATIC ${SOURCE} ${HEADERS})
 
 add_executable(ed25519_test test.c)
 target_link_libraries(ed25519_test ed25519)
+
+if(USE_OPENSSL)
+	target_link_libraries(ed25519_test crypto)
+endif()
 
 INSTALL(DIRECTORY include/ DESTINATION include/ed25519)
 INSTALL(TARGETS ed25519
