@@ -1,3 +1,4 @@
+#include <memory.h>
 #include "../include/ge.h"
 #include "../include/precomp_data.h"
 
@@ -55,6 +56,15 @@ static void slide(signed char *r, const unsigned char *a) {
                 }
             }
         }
+}
+
+/*
+ * Warps to ge_double_scalarmult_vartime() => r = a * A + zero * B
+ */
+void ge_scalarmult_vartime(ge_p2 *r, const unsigned char *a, const ge_p3 *A) {
+    unsigned char zero[32];
+    memset(zero, 0, sizeof(zero));
+    ge_double_scalarmult_vartime(r, a, A, zero);
 }
 
 /*
