@@ -1,6 +1,9 @@
 project(ed25519)
 cmake_minimum_required(VERSION 3.9)
 
+set(CMAKE_CXX_STANDARD 11)
+set(CMAKE_CXX_STANDARD_REQUIRED ON)
+
 option(USE_OPENSSL "Use openssl for sha 512 (Faster than the default installation" ON)
 
 set(SOURCE

@@ -63,7 +63,7 @@ static void slide(signed char *r, const unsigned char *a) {
  */
 void ge_scalarmult_vartime(ge_p2 *r, const unsigned char *a, const ge_p3 *A) {
     unsigned char zero[32];
-    memset(zero, 0, sizeof(zero));
+    memset(zero, 0, 32);
     ge_double_scalarmult_vartime(r, a, A, zero);
 }
 
@@ -327,6 +327,11 @@ void ge_p3_to_p2(ge_p2 *r, const ge_p3 *p) {
     fe_copy(r->Z, p->Z);
 }
 
+void ge_p2_to_p3(ge_p3 *r, const ge_p2 *p) {
+	uint8_t buffer[32];
+	ge_tobytes(buffer, p);
+	ge_frombytes_negate_vartime(r, buffer);
+}
 
 void ge_p3_tobytes(unsigned char *s, const ge_p3 *h) {
     fe recip;
