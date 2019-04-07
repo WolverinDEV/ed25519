@@ -22,6 +22,7 @@ if(USE_OPENSSL)
 	add_definitions(-DUSE_OPENSSL)
 	set(SOURCE ${SOURCE} src/sha512_openssl.c)
 else()
+	message(FATAL_ERROR "Not supported yet!")
 	set(SOURCE ${SOURCE} src/sha512.c)
 endif()
 

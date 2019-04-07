@@ -3,22 +3,9 @@
 
 #include <assert.h>
 
-#ifdef USE_OPENSSL
-	#include <openssl/sha.h>
-
-	typedef SHA512_CTX sha512_context;
-#else
-	#include <stddef.h>
-
-	#include "fixedint.h"
-
-	/* state */
-	typedef struct sha512_context_ {
-		uint64_t  length, state[8];
-		size_t curlen;
-		unsigned char buf[128];
-	} sha512_context;
-#endif
+typedef struct {
+	void* context;
+} sha512_context;
 
 typedef struct sha512_functions_ {
 	int(*_ed_sha512_init)(sha512_context*);

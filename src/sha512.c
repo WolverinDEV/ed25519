@@ -12,6 +12,13 @@
 #include "../include/fixedint.h"
 #include "../include/sha512.h"
 
+/* state */
+typedef struct sha512_context_ {
+	uint64_t  length, state[8];
+	size_t curlen;
+	unsigned char buf[128];
+} sha512_context;
+
 /* the K array */
 static const uint64_t K[80] = {
 		UINT64_C(0x428a2f98d728ae22), UINT64_C(0x7137449123ef65cd),
