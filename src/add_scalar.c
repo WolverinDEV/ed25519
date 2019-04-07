@@ -31,10 +31,11 @@ void ed25519_add_scalar(unsigned char *public_key, unsigned char *private_key, c
         sc_muladd(private_key, SC_1, n, private_key);
 
         // https://github.com/orlp/ed25519/issues/3
-        _ed_sha512_init(&hash);
-        _ed_sha512_update(&hash, private_key + 32, 32);
-        _ed_sha512_update(&hash, scalar, 32);
-        _ed_sha512_final(&hash, hashbuf);
+        _ed_sha512_validate();
+        _ed_sha512_functions._ed_sha512_init(&hash);
+        _ed_sha512_functions._ed_sha512_update(&hash, private_key + 32, 32);
+        _ed_sha512_functions._ed_sha512_update(&hash, scalar, 32);
+        _ed_sha512_functions._ed_sha512_final(&hash, hashbuf);
         for (i = 0; i < 32; ++i) {
             private_key[32 + i] = hashbuf[i];
         }

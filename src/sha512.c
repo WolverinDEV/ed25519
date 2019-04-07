@@ -269,3 +269,9 @@ int _ed_sha512(const unsigned char *message, size_t message_len, unsigned char *
 	if ((ret = _ed_sha512_final(&ctx, out))) return ret;
 	return 0;
 }
+
+extern sha512_functions _ed_sha512_functions = {
+		_ed_sha512_init,
+		_ed_sha512_final,
+		_ed_sha512_update
+};
