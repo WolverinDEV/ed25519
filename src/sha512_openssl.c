@@ -4,8 +4,6 @@
 
 
 int _ed_sha512_init(sha512_context* md) {
-	assert(!md->context);
-
 	md->context = malloc(sizeof(SHA512_CTX));
 	return SHA512_Init(md->context) != 1; /* Returns 0 on success */
 }
