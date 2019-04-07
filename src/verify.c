@@ -59,11 +59,11 @@ int ed25519_verify(const unsigned char *signature, const unsigned char *message,
         return 0;
     }
 
-    sha512_init(&hash);
-    sha512_update(&hash, signature, 32);
-    sha512_update(&hash, public_key, 32);
-    sha512_update(&hash, message, message_len);
-    sha512_final(&hash, h);
+    _ed_sha512_init(&hash);
+    _ed_sha512_update(&hash, signature, 32);
+    _ed_sha512_update(&hash, public_key, 32);
+    _ed_sha512_update(&hash, message, message_len);
+    _ed_sha512_final(&hash, h);
     
     sc_reduce(h);
     ge_double_scalarmult_vartime(&R, h, &A, signature + 32);
