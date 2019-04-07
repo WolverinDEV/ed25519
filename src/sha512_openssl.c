@@ -14,7 +14,7 @@ int _ed_sha512_update(sha512_context * md, const unsigned char *in, size_t inlen
 	return SHA512_Update(md, in, inlen) != 1; /* Returns 0 on success */
 }
 
-extern sha512_functions _ed_sha512_functions = {
+sha512_functions _ed_sha512_functions = {
 		_ed_sha512_init,
 		_ed_sha512_final,
 		_ed_sha512_update

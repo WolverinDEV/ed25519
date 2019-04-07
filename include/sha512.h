@@ -27,12 +27,12 @@ typedef struct sha512_functions_ {
 } sha512_functions;
 extern sha512_functions _ed_sha512_functions;
 
-void _ed_sha512_validate() {
+inline void _ed_sha512_validate() {
 	assert(_ed_sha512_functions._ed_sha512_init);
 	assert(_ed_sha512_functions._ed_sha512_final);
 	assert(_ed_sha512_functions._ed_sha512_update);
 }
-int _ed_sha512(const unsigned char *message, size_t message_len, unsigned char *out) {
+inline int _ed_sha512(const unsigned char *message, size_t message_len, unsigned char *out) {
 	_ed_sha512_validate();
 
 	int result = 1;
