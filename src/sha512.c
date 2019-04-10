@@ -283,6 +283,9 @@ int __ed_sha512_update(sha512_context *md, const unsigned char *in, size_t inlen
     return _ed_sha512_update(md->context, in, inlen);
 }
 
+#ifdef WIN32
+__declspec(dllexport)
+#endif
 sha512_functions _ed_sha512_functions = {
         __ed_sha512_init,
         __ed_sha512_final,

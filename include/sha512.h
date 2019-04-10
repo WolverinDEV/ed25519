@@ -12,6 +12,10 @@ typedef struct sha512_functions_ {
 	int(*_ed_sha512_final)(sha512_context*, unsigned char *);
 	int(*_ed_sha512_update)(sha512_context*, const unsigned char *, size_t);
 } sha512_functions;
+
+#ifdef WIN32
+__declspec(dllexport)
+#endif
 extern sha512_functions _ed_sha512_functions;
 
 inline void _ed_sha512_validate() {
