@@ -18,7 +18,6 @@ set(SOURCE
 		src/verify.c
 )
 
-set(USE_OPENSSL OFF)
 if(USE_OPENSSL)
 	add_definitions(-DUSE_OPENSSL)
 	set(SOURCE ${SOURCE} src/sha512_openssl.c)
