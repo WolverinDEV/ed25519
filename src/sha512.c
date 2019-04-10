@@ -8,7 +8,7 @@
  *
  * Tom St Denis, tomstdenis@gmail.com, http://libtom.org
  */
-
+#include <stdlib.h>
 #include "../include/fixedint.h"
 #include "../include/sha512.h"
 
@@ -17,7 +17,7 @@ typedef struct sha512_context_ {
 	uint64_t  length, state[8];
 	size_t curlen;
 	unsigned char buf[128];
-} sha512_context;
+} sha512_internal_context;
 
 /* the K array */
 static const uint64_t K[80] = {
@@ -95,7 +95,7 @@ static const uint64_t K[80] = {
 #endif
 
 /* compress 1024-bits */
-static int _ed_sha512_compress(sha512_context *md, unsigned char *buf) {
+static int _ed_sha512_compress(sha512_internal_context *md, unsigned char *buf) {
 	uint64_t S[8], W[80], t0, t1;
 	int i;
 
@@ -150,7 +150,7 @@ static int _ed_sha512_compress(sha512_context *md, unsigned char *buf) {
    @param md   The hash state you wish to initialize
    @return 0 if successful
 */
-int _ed_sha512_init(sha512_context *md) {
+int _ed_sha512_init(sha512_internal_context *md) {
 	if (md == NULL) return 1;
 
 	md->curlen = 0;
@@ -174,7 +174,7 @@ int _ed_sha512_init(sha512_context *md) {
    @param inlen  The length of the data (octets)
    @return 0 if successful
 */
-int _ed_sha512_update(sha512_context *md, const unsigned char *in, size_t inlen) {
+int _ed_sha512_update(sha512_internal_context *md, const unsigned char *in, size_t inlen) {
 	size_t n;
 	size_t i;
 	int err;
@@ -220,7 +220,7 @@ int _ed_sha512_update(sha512_context *md, const unsigned char *in, size_t inlen)
    @param out [out] The destination of the hash (64 bytes)
    @return 0 if successful
 */
-int _ed_sha512_final(sha512_context *md, unsigned char *out) {
+int _ed_sha512_final(sha512_internal_context *md, unsigned char *out) {
 	int i;
 
 	if (md == NULL) return 1;
@@ -268,17 +268,23 @@ int _ed_sha512_final(sha512_context *md, unsigned char *out) {
 	return 0;
 }
 
-int _ed_sha512(const unsigned char *message, size_t message_len, unsigned char *out) {
-	sha512_context ctx;
-	int ret;
-	if ((ret = _ed_sha512_init(&ctx))) return ret;
-	if ((ret = _ed_sha512_update(&ctx, message, message_len))) return ret;
-	if ((ret = _ed_sha512_final(&ctx, out))) return ret;
-	return 0;
+int __ed_sha512_final(sha512_context *md, unsigned char *out) {
+    auto result = _ed_sha512_final(md->context, out);
+    free(md->context);
+    return result;
+}
+
+int __ed_sha512_init(sha512_context *md) {
+    md->context = malloc(sizeof(sha512_internal_context));
+    return _ed_sha512_init(md->context);
+}
+
+int __ed_sha512_update(sha512_context *md, const unsigned char *in, size_t inlen) {
+    return _ed_sha512_update(md->context, in, inlen);
 }
 
 sha512_functions _ed_sha512_functions = {
-		_ed_sha512_init,
-		_ed_sha512_final,
-		_ed_sha512_update
+        __ed_sha512_init,
+        __ed_sha512_final,
+        __ed_sha512_update
 };

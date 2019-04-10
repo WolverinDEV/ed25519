@@ -21,7 +21,7 @@ int main() {
     int i;
 
     const unsigned char message[] = "Hello, world!";
-    const int message_len = strlen((char*) message);
+    const size_t message_len = strlen((char*) message);
 
     /* create a random seed, and a keypair out of that seed */
     ed25519_create_seed(seed);

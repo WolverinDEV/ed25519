@@ -1,4 +1,3 @@
-#include <memory.h>
 #include "../include/ge.h"
 #include "../include/precomp_data.h"
 
@@ -328,7 +327,7 @@ void ge_p3_to_p2(ge_p2 *r, const ge_p3 *p) {
 }
 
 void ge_p2_to_p3(ge_p3 *r, const ge_p2 *p) {
-	uint8_t buffer[32];
+    unsigned char buffer[32];
 	ge_tobytes(buffer, p);
 	ge_frombytes_negate_vartime(r, buffer);
 }

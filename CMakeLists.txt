@@ -18,11 +18,12 @@ set(SOURCE
 		src/verify.c
 )
 
+set(USE_OPENSSL OFF)
 if(USE_OPENSSL)
 	add_definitions(-DUSE_OPENSSL)
 	set(SOURCE ${SOURCE} src/sha512_openssl.c)
 else()
-	message(FATAL_ERROR "Not supported yet!")
+#	message(FATAL_ERROR "Not supported yet!")
 	set(SOURCE ${SOURCE} src/sha512.c)
 endif()
 
