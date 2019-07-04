@@ -39,8 +39,11 @@ set(HEADERS
 
 add_library(ed25519 STATIC ${SOURCE} ${HEADERS})
 
-add_executable(ed25519_test test.c)
-target_link_libraries(ed25519_test ed25519)
+option(BUILD_TESTS "Build test" ON)
+if (BUILD_TESTS)
+	add_executable(ed25519_test test.c)
+	target_link_libraries(ed25519_test ed25519)
+endif ()
 
 if(USE_OPENSSL)
 	target_link_libraries(ed25519_test crypto)
